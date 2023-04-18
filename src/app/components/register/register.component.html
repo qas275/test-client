@@ -1,0 +1,43 @@
+<mat-toolbar color="primary" class="header">
+    <mat-toolbar-row style="text-align: center;display: inline-block;
+    width: 100%;height: 20%;">
+        <span>ZUOMO APP</span>
+    </mat-toolbar-row>
+    <mat-toolbar-row class="Banner" style="text-align: center;display: inline-block;
+    width: 100%;">
+        <a mat-button [routerLink]="['/register']">REGISTER </a>|
+        <a mat-button [routerLink]="['/search']">SEARCH</a>|
+        <a mat-button [routerLink]="['/results']">RESULTS </a>|
+        <a mat-button [routerLink]="['/details']">DETAILS </a>|
+        <a mat-button [routerLink]="['/home']">HOME </a>|
+        <a mat-button [routerLink]="['/login']">LOGIN</a>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<form [formGroup]="registrationForm" (ngSubmit)="register()">
+    <table> 
+        <tr>
+            <mat-form-field>
+                <mat-label>Email</mat-label>    
+                <input matInput formControlName="email">
+                <mat-icon matSuffix>email</mat-icon>
+            </mat-form-field>
+        </tr>
+        <tr>
+            <mat-form-field>
+                <mat-label>Password</mat-label>    
+                <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+                <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                <mat-hint align="end">Minimum 3 characters</mat-hint>
+            </mat-form-field>
+        </tr>
+        <tr>
+            <div *ngIf="registrationForm.invalid else elseblock">
+                <button mat-raised-button color="" type="button">REGISTER</button>
+            </div>
+            <ng-template #elseblock>
+                <button mat-raised-button color="accent" type="submit">REGISTER</button>
+            </ng-template>
+        </tr>
+    </table>
+</form>

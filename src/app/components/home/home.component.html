@@ -1,0 +1,73 @@
+<mat-toolbar color="primary" class="header">
+    <mat-toolbar-row style="text-align: center;display: inline-block;
+    width: 100%;height: 20%;">
+        <span>ZUOMO APP</span>
+    </mat-toolbar-row>
+    <mat-toolbar-row class="Banner" style="text-align: center;display: inline-block;
+    width: 100%;">
+        <a mat-button [routerLink]="['/register']">REGISTER </a>|
+        <a mat-button [routerLink]="['/search']">SEARCH</a>|
+        <a mat-button [routerLink]="['/results']">RESULTS </a>|
+        <a mat-button [routerLink]="['/details']">DETAILS </a>|
+        <a mat-button [routerLink]="['/home']">HOME </a>|
+        <a mat-button [routerLink]="['/login']">LOGIN</a>
+        <a mat-button (click)="logout()">LOGOUT</a>
+    </mat-toolbar-row>
+</mat-toolbar>
+<br>
+<h2 style="color:white">Favorites</h2>
+<div *ngIf="user.numFavs>0">
+    <div *ngFor="let location of user.favorites; let idx = index">
+
+        <mat-card (click)="nav(idx)">
+            <mat-card-title>{{location.name}}</mat-card-title>
+            <mat-card-content>
+                <p>
+                    <span>Nearest MRT: </span>
+                    <span>{{location.nearestMrtStation}}</span>
+                </p>
+                <p>
+                    <span>Type: </span>
+                    <span>{{location.dataset.replace("_"," ") | titlecase}}</span>
+                </p>
+            </mat-card-content>
+            <br><br>
+        </mat-card>
+        <br>
+        <!-- <table mat-table border="1px" [dataSource]="user.favorites">
+            <ng-container matColumnDef="Index">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Index</th>
+                <td mat-cell *matCellDef="let idx =index">{{idx+1}}</td>
+            </ng-container>
+            <ng-container matColumnDef="Favourties">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Favourties</th>
+                <td mat-cell *matCellDef="let location of user.favorites">{{location.name}}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="headers"></tr>
+            <tr mat-row *matRowDef="let row; columns: headers"></tr>
+            
+            
+            <tr><td>Index</td><td>Name</td></tr>
+            <tr *ngFor="let location of user.favorites; let idx = index">
+                <td>{{idx+1}}</td>
+                <td (click)="nav(idx)">{{location.name | titlecase}}</td>
+            </tr>
+        </table> -->
+    </div>
+</div>
+
+<form [formGroup]="searchForm" (ngSubmit)="search()">
+    <table>
+        <tr>
+            <mat-form-field>
+                <mat-label>Keyword:</mat-label>
+                <input type="text" matInput formControlName="keyword">
+            </mat-form-field>
+        <tr>
+            <td><button mat-raised-button color="primary" type="submit">SEARCH</button></td>
+        </tr>
+    </table>
+</form>
+
+<!-- <button mat-raised-button color="primary" [routerLink]="['/search']">SEARCH</button> -->
+

@@ -1,0 +1,61 @@
+<mat-toolbar color="primary" class="header">
+    <mat-toolbar-row style="text-align: center;display: inline-block;
+    width: 100%;height: 20%;">
+        <span>ZUOMO APP</span>
+    </mat-toolbar-row>
+    <mat-toolbar-row class="Banner" style="text-align: center;display: inline-block;
+    width: 100%;">
+        <a mat-button [routerLink]="['/register']">REGISTER </a>|
+        <a mat-button [routerLink]="['/search']">SEARCH</a>|
+        <a mat-button [routerLink]="['/results']">RESULTS </a>|
+        <a mat-button [routerLink]="['/details']">DETAILS </a>|
+        <a mat-button [routerLink]="['/home']">HOME </a>|
+        <a mat-button [routerLink]="['/login']">LOGIN</a>
+        <a mat-button (click)="logout()">LOGOUT</a>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<h2 style="color: white;">Showing Results for: {{keyword|uppercase}}</h2>
+
+<div *ngIf="this.dataSvc.searchResults.length>0; else elseblock">
+    <div *ngFor="let location of dataSvc.searchResults; let i = index">
+        <mat-card (click)="nav(i)">
+            <mat-card-title>{{location.name}}  </mat-card-title>
+            <mat-card-content>
+                <span>fav?</span><span>{{location.fav}}</span>
+                <p>
+                    <span>Nearest MRT: </span>
+                    <span>{{location.nearestMrtStation}}</span>
+                </p>
+                <p>
+                    <span>Type: </span>
+                    <span>{{location.dataset.replace("_"," ") | titlecase}}</span>
+                </p>
+                <p>
+                    <span>UUID: </span>
+                    <span>{{location.uuid}}</span>
+                </p>
+                <p>
+                    <span>Description: </span>
+                    <span>{{location.description}}</span>
+                </p>
+            </mat-card-content>
+        </mat-card>
+        <br>
+        <!-- <table border="1px" width = "75%">
+            <tr><td>UUID</td><td>Location Name</td><td>Nearest Mrt</td><td>Description</td></tr>
+            <tr *ngFor="let location of dataSvc.searchResults; let i = index">
+                <td width="25%">{{location.uuid}}</td>
+                <td width="40%" class="clickable" (click)="nav(i)">{{location.name}}</td>
+                <td width="15%">{{location.nearestMrtStation}}</td>
+                <td width="25%">{{location.description}}</td>
+            </tr>
+        </table> -->
+    </div>
+</div>
+<ng-template #elseblock>
+    <div>
+        <p>No Results Found</p>
+        <button [routerLink]="['/search']">Back</button>
+    </div>
+</ng-template>

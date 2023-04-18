@@ -1,0 +1,14 @@
+/* You can add global styles to this file, and also import other style files */
+.Banner{
+    color:grey;
+    text-transform: uppercase;
+    font-size: 0.7em;
+    height: 20%;
+}
+
+.clickable{
+    color: blue;
+    text-decoration: underline;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

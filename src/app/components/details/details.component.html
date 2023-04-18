@@ -1,0 +1,122 @@
+<mat-toolbar color="primary" class="header">
+    <mat-toolbar-row style="text-align: center;display: inline-block;
+    width: 100%;height: 20%;">
+        <span>ZUOMO APP</span>
+    </mat-toolbar-row>
+    <mat-toolbar-row class="Banner" style="text-align: center;display: inline-block;
+    width: 100%;">
+        <a mat-button [routerLink]="['/register']">REGISTER </a>|
+        <a mat-button [routerLink]="['/search']">SEARCH</a>|
+        <a mat-button [routerLink]="['/results']">RESULTS </a>|
+        <a mat-button [routerLink]="['/details']">DETAILS </a>|
+        <a mat-button [routerLink]="['/home']">HOME </a>|
+        <a mat-button [routerLink]="['/login']">LOGIN</a>
+        <a mat-button (click)="logout()">LOGOUT</a>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<div *ngIf="selectedlocation">
+    <mat-card>
+        <mat-card-header>
+            <h1>{{selectedlocation.name}}  </h1> <h1 *ngIf="selectedlocation.fav"> &nbsp; <mat-icon style="color:orange">star</mat-icon></h1>
+        </mat-card-header>
+        <mat-card-content>
+            <p>
+                <span>Location Name:</span><span>{{selectedlocation.name}}</span>
+            </p>
+            <p>
+                <span>Description:</span><span>{{selectedlocation.description}}</span>
+            </p>
+            <p>
+                <span>UUID:</span><span>{{selectedlocation.uuid}}</span>
+            </p>
+            <p>
+                <span>Nearest:</span><span>{{selectedlocation.nearestMrtStation}}</span>
+            </p>
+            <p>
+                <span>Contact</span><span>{{selectedlocation.contact.primaryContactNo}}</span>
+            </p>
+            <p>
+                <span>GeoCode:</span><span>{{selectedlocation.location.longitude}},{{selectedlocation.location.latitude}}</span>
+            </p>
+            <p *ngIf="selectedlocation.images.length>0">
+                    <span>Image Url:</span>
+                    <span>{{selectedlocation.images[0].url}}</span>
+            </p>
+            <p>
+                <span>Fav?:</span><span>{{selectedlocation.fav.toString()}}</span>
+            </p>
+        </mat-card-content>
+    </mat-card>
+</div>
+
+<iframe
+      width="650"
+      height="450"
+      frameborder="0" style="border:0"
+      referrerpolicy="no-referrer-when-downgrade"
+      [src]="sanitizer.bypassSecurityTrustResourceUrl(this.gmap)"
+      allowfullscreen>
+</iframe>
+
+
+<div *ngIf="selectedlocation.images.length>0">
+    <img src={{selectedlocation.images[0].url}} width="500vw">
+</div>
+<br>
+
+
+<div *ngIf="selectedlocation?.fav">
+    <button mat-raised-button color="primary" type="button" (click)="removeFav()">Remove from Favourites</button>
+    <button mat-raised-button color="primary" type="button" (click)="toggleForm()">Comment</button>
+    <div [hidden]="hideForm>0">
+        <form [formGroup]="commentForm" (ngSubmit)="addComment()">
+            <table>
+                <tr>
+                    <mat-form-field>
+                        <!-- <input type="number" class="form-control" placeholder="Rating" > -->
+                        <mat-select formControlName="rating" placeholder="Rating">
+                            <mat-option value="1">1</mat-option>
+                            <mat-option value="2">2</mat-option>
+                            <mat-option value="3">3</mat-option>
+                            <mat-option value="4">4</mat-option>
+                            <mat-option value="5">5</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </tr>
+                <tr>
+                    <mat-form-field>
+                        <mat-label>Comment:</mat-label>
+                        <input type="text" matInput formControlName="comment">
+                    </mat-form-field>
+                </tr>
+                <tr>
+                    <td>Picture</td>
+                    <td>
+                        <input type="file" accept="image/*" formControlName="picture" #picture>
+                    </td>
+                </tr>
+                <tr>
+                    <button mat-raised-button color="primary" type="submit">Upload comment</button>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+<button mat-raised-button color="primary" type="button" [hidden]="selectedlocation.fav" (click)="addFav()">Save to Favourites</button>
+<button mat-raised-button color="primary" type="button" [routerLink]="['/results']">Back to Results</button>
+<button mat-raised-button color="primary" type="button" [routerLink]="['/search']">New Search</button>
+
+<div *ngIf="selectedlocation.locationComments">
+    <div *ngFor="let comment of selectedlocation.locationComments; let idx = index">
+        <h3>User: {{selectedlocation.locationComments[idx].email}}</h3>
+        <span>Comment: {{selectedlocation.locationComments[idx].comment}}</span><br>
+        <span>Rating: {{selectedlocation.locationComments[idx].rating}}</span><br>
+        <span>Image: {{selectedlocation.locationComments[idx].imageUUID}}</span><br>
+        <img src="https://vttpws.sgp1.digitaloceanspaces.com/todo%2F{{selectedlocation.locationComments[idx].imageUUID}}" alt="" width="100vw">
+        <span>Post_id: {{selectedlocation.locationComments[idx].post_id}}</span>
+        <div [hidden]="!emailCheck(idx)">
+            <button mat-raised-button color="primary" (click)="deleteComment(selectedlocation.locationComments[idx].post_id)">Delete Comment</button>
+        </div>
+    </div>
+</div>

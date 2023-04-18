@@ -1,0 +1,21 @@
+<mat-toolbar color="primary" class="header">
+    <mat-toolbar-row style="text-align: center;display: inline-block;
+    width: 100%;height: 20%;">
+        <span>ZUOMO APP</span>
+    </mat-toolbar-row>
+    <mat-toolbar-row class="Banner" style="text-align: center;display: inline-block;
+    width: 100%;">
+        <a mat-button [routerLink]="['/register']">REGISTER </a>|
+        <a mat-button [routerLink]="['/search']">SEARCH</a>|
+        <a mat-button [routerLink]="['/results']">RESULTS </a>|
+        <a mat-button [routerLink]="['/details']">DETAILS </a>|
+        <a mat-button [routerLink]="['/home']">HOME </a>|
+        <a mat-button [routerLink]="['/login']">LOGIN</a>
+        <a mat-button (click)="logout()">LOGOUT</a>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<span>Email: {{this.dataSvc.svcUser.email}}</span>
+<br>
+<span>Favorites: {{this.dataSvc.svcUser.numFavs}}</span> <br>
+<button mat-raised-button color="primary" type="button" (click)="deleteUser()">DELETE ACCOUNT</button>    
