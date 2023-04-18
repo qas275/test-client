@@ -72,7 +72,7 @@ constructor( private http:HttpClient, private dataSvc:DataService) { }
 
   setHead():HttpHeaders{
     let head = 'Bearer'+sessionStorage.getItem('WS_JWT');
-    return new HttpHeaders().set("Authorisation", head);
+    return new HttpHeaders().set("Authorisation", head).append("Access-Control-Allow-Origin","*");
   }
 
   logout(){
