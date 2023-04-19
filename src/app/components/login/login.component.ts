@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    console.log("LOGIN LOADING")
     this.loginForm = this.createLoginForm();  
     console.log(sessionStorage.getItem("WS_JWT"))
   }

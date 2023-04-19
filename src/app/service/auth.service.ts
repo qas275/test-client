@@ -13,7 +13,7 @@ export class AuthService {
   async checkLogin(email:string, password: string){
     let params =  new HttpParams().set('email', email).set('password', password);
     let body = {"email": email,"password":password}
-    let response = await lastValueFrom(this.http.post<any>('https://curly-friction-production.up.railway.app/auth/login',body)).then(
+    let response = await lastValueFrom(this.http.post<any>('https://curly-friction-production.up.railway.app/#/auth/login',body)).then(
       (res) =>{
         return res;
       }
@@ -24,7 +24,7 @@ export class AuthService {
   async register(email:string, password: string){
     let headers = new HttpHeaders().set('Content-Type','application/x-www-form-urlencoded')
     let params =  new HttpParams().set('email', email).set('password', password);
-    let response = await lastValueFrom(this.http.post<any>('https://curly-friction-production.up.railway.app/auth/register',params.toString(), {headers:headers})).then( //auto convert to json
+    let response = await lastValueFrom(this.http.post<any>('https://curly-friction-production.up.railway.app/#/auth/register',params.toString(), {headers:headers})).then( //auto convert to json
       (res) =>{
         console.log(res);
         return res.registration; //won't report error here due to any typecast so need to make sure property is correct
